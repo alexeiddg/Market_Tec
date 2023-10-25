@@ -59,17 +59,14 @@ class DetallesCarro extends Component {
                             <img alt={x.name} src={x.img} width='40' height='32' />
                             {x.name}
                             <span>{x.cantidad}</span>
-                        </li>)}
+                        </li>
+                    )}
                 </ul>
-                {this.state.mostrarPago ? (
-                    <Pago carro={carro} />
-                ) : (
+                {this.state.mostrarPago ? (<Pago carro={carro} />) : (
                     <button
                         style={styles.pago}
                         onClick={() => this.setState({ mostrarPago: true })}
-                    >
-                        Proceder al pago
-                    </button>
+                    > Proceder al pago </button>
                 )}
             </div>
         );

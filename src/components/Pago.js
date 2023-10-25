@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 const styles = {
     layout: {
@@ -27,27 +27,41 @@ const styles = {
     },
 };
 
-function Pago({ carro }) {
-  // Calcular el total
-  const total = carro.reduce((acc, producto) => acc + producto.precio * producto.cantidad, 0);
+class Pago extends Component {
+    calcularTotal(carro) {
+        return carro.reduce((acc, producto) => acc + (producto.price * producto.cantidad), 0);
+    }
 
-    return (
-        <div style={styles.layout}>
-            <div style={styles.content}>
-                <h1>Pago</h1>
-                <p>Productos a comprar:</p>
-                <ul>
-                {carro.map((producto) => (
-                    <li key={producto.name}>
-                    {producto.name} - Cantidad: {producto.cantidad}
-                    </li>
-                ))}
-                </ul>
-                <p>Total a pagar: ${total}</p>
-                <button style={styles.boton}>Pagar</button>
+    borrarCarrito(carro) {
+        return () => {
+            alert('Pago realizado con éxito');
+            carro.splice(0, carro.length);
+            this.setState({ carro });
+        };
+    }
+
+    render() {
+        const { carro } = this.props;
+        const total = this.calcularTotal(carro);
+
+        return (
+            <div style={styles.layout}>
+                <div style={styles.content}>
+                    <h1>Pago</h1>
+                    <p>Productos a comprar:</p>
+                    <ul>
+                        {carro.map((producto) => (
+                            <li key={producto.name}>
+                                {producto.name} - Cantidad: {producto.cantidad}
+                            </li>
+                        ))}
+                    </ul>
+                    <p>Total a pagar: ${total.toFixed(2)}</p>
+                    <button style={styles.boton} onClick={this.borrarCarrito(carro)}>Pagar</button>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default Pago;
