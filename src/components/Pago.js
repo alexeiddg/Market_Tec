@@ -1,65 +1,53 @@
-import React, { Component } from 'react';
-
-class Pago extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            costoTotal: 0, // Initialize the total cost to 0
-        };
-    }
-
-    componentDidMount() {
-        // Calculate the total cost from the props (assuming carro contains price information)
-        const { carro } = this.props;
-        const total = carro.reduce((acc, item) => acc + item.price * item.cantidad, 0);
-        this.setState({ costoTotal: total });
-    }
-
-    handlePagarClick = () => {
-        // Add the logic for payment here (e.g., redirect to a payment gateway)
-        // You can replace the window.location.href with your payment gateway URL.
-        // For simplicity, it's using a placeholder URL.
-        window.location.href = 'https://example.com/payment-gateway'; // Replace with your actual payment gateway URL
-    };
-
-    render() {
-        const { carro } = this.props;
-        const { costoTotal } = this.state;
-
-        return (
-            <div style={styles.pagoContainer}>
-                <h2>Detalles de Pago</h2>
-                <ul style={styles.ul}>
-                    {carro.map((x) => (
-                        <li style={styles.producto} key={x.name}>
-                            <img alt={x.name} src={x.img} width='40' height='32' />
-                            {x.name}
-                            <span>{x.cantidad}</span>
-                        </li>
-                    ))}
-                </ul>
-                <p>Total: ${costoTotal.toFixed(2)}</p>
-                <button style={styles.pagoButton} onClick={this.handlePagarClick}>
-                    Pagar
-                </button>
-            </div>
-        );
-    }
-}
+import React from 'react';
 
 const styles = {
-    pagoContainer: {
-        // Define your styles for the payment container here
+    layout: {
+        backgroundColor: 'white',
+        width: '100%',
+        height: '50%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '0px 0px 15px 0px',
     },
-    ul: {
-        // Define your styles for the list here
+    content: {
+        textAlign: 'center',
     },
-    producto: {
-        // Define your styles for individual products here
-    },
-    pagoButton: {
-        // Define your styles for the payment button here
+    boton: {
+        backgroundColor: '#007DA2',
+        border: 'none',
+        boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.3)',
+        color: 'white',
+        width: '50%',
+        borderRadius: '5px',
+        padding: '5px 15px',
+        fontSize: '1em',
+        cursor: 'pointer',
     },
 };
+
+function Pago({ carro }) {
+  // Calcular el total
+  const total = carro.reduce((acc, producto) => acc + producto.precio * producto.cantidad, 0);
+
+    return (
+        <div style={styles.layout}>
+            <div style={styles.content}>
+                <h1>Pago</h1>
+                <p>Productos a comprar:</p>
+                <ul>
+                {carro.map((producto) => (
+                    <li key={producto.name}>
+                    {producto.name} - Cantidad: {producto.cantidad}
+                    </li>
+                ))}
+                </ul>
+                <p>Total a pagar: ${total}</p>
+                <button style={styles.boton}>Pagar</button>
+            </div>
+        </div>
+    );
+}
 
 export default Pago;

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import Pago from './Pago';
 
 const styles = {
@@ -6,7 +6,7 @@ const styles = {
         backgroundColor: 'white',
         position: 'absolute',
         marginTop: 30,
-        boxShadow: '1px 5px 5px rgb(0,0,0,0.3)',
+        boxShadow: '1px 5px 5px rgba(0, 0, 0, 0.3)',
         borderRadius: '5px',
         width: '300px',
         right: 100,
@@ -27,7 +27,7 @@ const styles = {
         display: 'flex',
         backgroundColor: '#007DA2',
         border: 'none',
-        boxShadow: '0px 5px 5px rgb(0,0,0,0.3)',
+        boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.3)',
         color: 'white',
         width: '50%',
         borderRadius: '5px',
@@ -37,14 +37,20 @@ const styles = {
         position: 'absolute',
         right: 60,
         bottom: -35,
-
     },
 }
 
 class DetallesCarro extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            mostrarPago: false,
+        };
+    }
+
     render() {
-        const { carro } = this.props
-        console.log(carro)
+        const { carro } = this.props;
+
         return (
             <div style={styles.detallesCarro}>
                 <ul style={styles.ul}>
@@ -55,9 +61,18 @@ class DetallesCarro extends Component {
                             <span>{x.cantidad}</span>
                         </li>)}
                 </ul>
-                <button style={styles.pago} onClick={<Pago/>}>Proceder al pago</button>
+                {this.state.mostrarPago ? (
+                    <Pago carro={carro} />
+                ) : (
+                    <button
+                        style={styles.pago}
+                        onClick={() => this.setState({ mostrarPago: true })}
+                    >
+                        Proceder al pago
+                    </button>
+                )}
             </div>
-        )
+        );
     }
 }
 
